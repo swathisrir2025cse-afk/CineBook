@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Ticket | CineBook</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="navbar">
+        <h2>CineBook</h2>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="Booking.html">Book Tickets</a>
+            <a href="my-bookings.html">My Bookings</a>
+        </nav>
+    </header>
+
+    <main class="ticket-page">
+        <h1>Your Digital Ticket</h1>
+        <p class="ticket-subtitle">
+            Your movie details, all in one place.
+        </p>
+
+        <div id="ticket-container">
+            Loading your ticket...
+        </div>
+
+        <div class="ticket-actions">
+            <button id="print-ticket" type="button">
+                Print Ticket
+            </button>
+            <a href="my-bookings.html">Back to My Bookings</a>
+        </div>
+    </main>
+
+    <script src="session.js"></script>
+    <script src="ticket.js"></script>
+</body>
+</html>

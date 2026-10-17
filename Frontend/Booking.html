@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineBook | Book Tickets</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="booking-page">
+
+    <nav class="navbar">
+        <h2 class="logo">Cine<span>Book</span></h2>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="booking.html" class="active">Book Tickets</a>
+        </div>
+    </nav>
+
+    <main class="booking-container">
+        <section class="booking-heading">
+            <p class="gold-text">YOUR MOVIE EXPERIENCE STARTS HERE</p>
+            <h1>Book Your <span>Tickets</span></h1>
+            <p>Choose your movie, select your seats, and get ready for the show.</p>
+        </section>
+
+        <section class="booking-card">
+            <h2>01. Choose Your Show</h2>
+
+            <div class="booking-fields">
+                <div class="field-group">
+                    <label for="movieSelect">Movie</label>
+                    <select id="movieSelect">
+                        <option value="Leo">Leo — ₹180</option>
+                        <option value="Jailer">Jailer — ₹200</option>
+                        <option value="Vikram">Vikram — ₹250</option>
+                    </select>
+                </div>
+
+                <div class="field-group">
+                    <label for="showDate">Date</label>
+                    <input type="date" id="showDate" required>
+                </div>
+
+                <div class="field-group">
+                    <label for="showTime">Show Time</label>
+                    <select id="showTime">
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="1:30 PM">1:30 PM</option>
+                        <option value="6:00 PM">6:00 PM</option>
+                        <option value="9:30 PM">9:30 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="screen-area">
+                <div class="screen"></div>
+                <p>SCREEN THIS WAY</p>
+            </div>
+
+            <h2>02. Select Your Seats</h2>
+            <p class="seat-instruction">Click the seats you want to reserve.</p>
+
+            <div class="seat-legend">
+                <span><i class="legend-seat available-legend"></i> Available</span>
+                <span><i class="legend-seat selected-legend"></i> Selected</span>
+                <span><i class="legend-seat booked-legend"></i> Unavailable</span>
+            </div>
+
+            <div class="seat-layout" id="seatLayout">
+                <div class="seat-row">
+                    <span class="row-label">A</span>
+                    <button type="button" class="seat" data-seat="A1">1</button>
+                    <button type="button" class="seat" data-seat="A2">2</button>
+                    <button type="button" class="seat" data-seat="A3">3</button>
+                    <button type="button" class="seat" data-seat="A4">4</button>
+                    <span class="aisle"></span>
+                    <button type="button" class="seat" data-seat="A5">5</button>
+                    <button type="button" class="seat" data-seat="A6">6</button>
+                    <button type="button" class="seat" data-seat="A7">7</button>
+                    <button type="button" class="seat" data-seat="A8">8</button>
+                </div>
+
+                <div class="seat-row">
+                    <span class="row-label">B</span>
+                    <button type="button" class="seat" data-seat="B1">1</button>
+                    <button type="button" class="seat" data-seat="B2">2</button>
+                    <button type="button" class="seat" data-seat="B3">3</button>
+                    <button type="button" class="seat" data-seat="B4">4</button>
+                    <span class="aisle"></span>
+                    <button type="button" class="seat" data-seat="B5">5</button>
+                    <button type="button" class="seat" data-seat="B6">6</button>
+                    <button type="button" class="seat" data-seat="B7">7</button>
+                    <button type="button" class="seat" data-seat="B8">8</button>
+                </div>
+
+                <div class="seat-row">
+                    <span class="row-label">C</span>
+                    <button type="button" class="seat" data-seat="C1">1</button>
+                    <button type="button" class="seat" data-seat="C2">2</button>
+                    <button type="button" class="seat" data-seat="C3">3</button>
+                    <button type="button" class="seat" data-seat="C4">4</button>
+                    <span class="aisle"></span>
+                    <button type="button" class="seat" data-seat="C5">5</button>
+                    <button type="button" class="seat" data-seat="C6">6</button>
+                    <button type="button" class="seat" data-seat="C7">7</button>
+                    <button type="button" class="seat" data-seat="C8">8</button>
+                </div>
+
+                <div class="seat-row">
+                    <span class="row-label">D</span>
+                    <button type="button" class="seat" data-seat="D1">1</button>
+                    <button type="button" class="seat" data-seat="D2">2</button>
+                    <button type="button" class="seat" data-seat="D3">3</button>
+                    <button type="button" class="seat" data-seat="D4">4</button>
+                    <span class="aisle"></span>
+                    <button type="button" class="seat" data-seat="D5">5</button>
+                    <button type="button" class="seat" data-seat="D6">6</button>
+                    <button type="button" class="seat" data-seat="D7">7</button>
+                    <button type="button" class="seat" data-seat="D8">8</button>
+                </div>
+            </div>
+
+            <div class="booking-summary">
+                <div>
+                    <p>Selected Seats</p>
+                    <strong id="selectedSeats">None</strong>
+                </div>
+                <div>
+                    <p>Ticket Price</p>
+                    <strong id="ticketPrice">₹180</strong>
+                </div>
+                <div>
+                    <p>Total Amount</p>
+                    <strong class="total-price" id="totalPrice">₹0</strong>
+                </div>
+            </div>
+
+            <button type="button" class="confirm-booking-btn" id="confirmBooking">
+                Confirm Booking
+            </button>
+
+            <div id="bookingMessage" class="booking-message" role="status" aria-live="polite"></div>
+        </section>
+    </main>
+
+    <footer class="booking-footer">
+        <p>© 2026 CineBook. Enjoy your movie experience.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="session.js"></script>
+<script>
+    const savedUser = localStorage.getItem("cinebookUser");
+
+    if (!savedUser) {
+        alert("Please log in before booking tickets.");
+        window.location.href = "login.html";
+    }
+</script>
+
+</body>
+</html>
+```

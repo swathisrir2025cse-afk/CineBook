@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CineBook | Explore Movies</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="movies-page">
+
+    <header class="navbar">
+        <a href="index.html" class="logo">
+            Cine<span>Book</span><b>.</b>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="movies.html" class="active">Movies</a>
+            <a href="booking.html">Book Tickets</a>
+            <a href="login.html">Login</a>
+            <a href="register.html">Register</a>
+        </nav>
+
+        <a href="booking.html" class="nav-button">Book Now ↗</a>
+    </header>
+
+    <main>
+
+        <section class="movies-hero">
+            <div class="movies-hero-content">
+                <p class="eyebrow">YOUR NEXT CINEMATIC EXPERIENCE</p>
+
+                <h1>
+                    Find Your Next<br>
+                    <span>Favourite Movie.</span>
+                </h1>
+
+                <p>
+                    Discover stories that thrill you, inspire you,
+                    and stay with you long after the credits roll.
+                </p>
+
+                <a href="#movie-catalogue" class="primary-button">
+                    Explore Collection <span>↓</span>
+                </a>
+            </div>
+
+            <div class="movies-hero-label">
+                <span class="tag-dot"></span>
+                THE MOVIE COLLECTION
+            </div>
+        </section>
+
+        <section class="movie-catalogue" id="movie-catalogue">
+
+            <div class="catalogue-heading">
+                <div>
+                    <p class="eyebrow">HANDPICKED FOR YOU</p>
+                    <h2>Now Showing</h2>
+                    <p class="catalogue-description">
+                        Choose your movie and prepare for the experience.
+                    </p>
+                </div>
+
+                <div class="movie-search">
+                    <span>⌕</span>
+                    <input
+                        type="search"
+                        id="movieSearch"
+                        placeholder="Search movie titles..."
+                        aria-label="Search movies">
+                </div>
+            </div>
+
+            <div class="movie-filters">
+                <button class="filter-button active" data-filter="all">
+                    All Movies
+                </button>
+
+                <button class="filter-button" data-filter="action">
+                    Action
+                </button>
+
+                <button class="filter-button" data-filter="thriller">
+                    Thriller
+                </button>
+
+                <button class="filter-button" data-filter="crime">
+                    Crime
+                </button>
+            </div>
+
+            <div class="catalogue-grid" id="catalogueGrid">
+
+                <!-- Leo -->
+                <article class="catalogue-card"
+                    data-title="leo"
+                    data-genres="action thriller">
+
+                    <div class="catalogue-poster">
+                        <img
+                            src="https://media.senscritique.com/media/000021439997/0/leo.png"
+                            alt="Leo Tamil movie poster"
+                            loading="eager">
+
+                        <span class="movie-badge">FEATURED</span>
+                        <span class="poster-rating">★ 8.1</span>
+                    </div>
+
+                    <div class="catalogue-info">
+                        <div class="catalogue-title-row">
+                            <h3>Leo</h3>
+                            <span class="movie-year">2023</span>
+                        </div>
+
+                        <p class="movie-genres">
+                            Action <span>·</span> Thriller
+                        </p>
+
+                        <div class="catalogue-details">
+                            <span>Tamil</span>
+                            <span>₹180 / ticket</span>
+                        </div>
+
+                        <a href="booking.html?movie=Leo"
+                            class="catalogue-book-button">
+                            Book Tickets <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Jailer -->
+                <article class="catalogue-card"
+                    data-title="jailer"
+                    data-genres="action crime">
+
+                    <div class="catalogue-poster">
+                        <img
+                            src="https://image.tmdb.org/t/p/w500/pTmMxAHqX4vsIDE6HPPxOR0Q6TN.jpg"
+                            alt="Jailer Tamil movie poster"
+                            loading="eager">
+
+                        <span class="poster-rating">★ 7.8</span>
+                    </div>
+
+                    <div class="catalogue-info">
+                        <div class="catalogue-title-row">
+                            <h3>Jailer</h3>
+                            <span class="movie-year">2023</span>
+                        </div>
+
+                        <p class="movie-genres">
+                            Action <span>·</span> Crime
+                        </p>
+
+                        <div class="catalogue-details">
+                            <span>Tamil</span>
+                            <span>₹200 / ticket</span>
+                        </div>
+
+                        <a href="booking.html?movie=Jailer"
+                            class="catalogue-book-button">
+                            Book Tickets <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Vikram -->
+                <article class="catalogue-card"
+                    data-title="vikram"
+                    data-genres="action crime thriller">
+
+                    <div class="catalogue-poster">
+                        <img
+                            src="https://image.tmdb.org/t/p/w500/774UV1aCURb4s4JfEFg3IEMu5Zj.jpg"
+                            alt="Vikram Tamil movie poster"
+                            loading="eager">
+
+                        <span class="poster-rating">★ 8.3</span>
+                    </div>
+
+                    <div class="catalogue-info">
+                        <div class="catalogue-title-row">
+                            <h3>Vikram</h3>
+                            <span class="movie-year">2022</span>
+                        </div>
+
+                        <p class="movie-genres">
+                            Action <span>·</span> Crime
+                        </p>
+
+                        <div class="catalogue-details">
+                            <span>Tamil</span>
+                            <span>₹250 / ticket</span>
+                        </div>
+
+                        <a href="booking.html?movie=Vikram"
+                            class="catalogue-book-button">
+                            Book Tickets <span>→</span>
+                        </a>
+                    </div>
+                </article>
+
+            </div>
+
+            <p id="noMoviesFound" class="no-movies-message" hidden>
+                No movies found. Try another search or category.
+            </p>
+
+        </section>
+
+        <section class="movies-cta">
+            <p class="eyebrow">YOUR SEAT IS WAITING</p>
+
+            <h2>
+                Make your next movie night
+                <span>unforgettable.</span>
+            </h2>
+
+            <p>
+                Choose a movie, pick your seats, and enjoy the show.
+            </p>
+
+            <a href="booking.html" class="primary-button">
+                Start Booking <span>→</span>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <a href="index.html" class="logo">
+            Cine<span>Book</span><b>.</b>
+        </a>
+
+        <p>Your movie night, made memorable.</p>
+
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="movies.html">Movies</a>
+            <a href="booking.html">Book Tickets</a>
+        </div>
+
+        <p class="footer-small">Student Project Demonstration</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+    <script>
+        const searchBox = document.getElementById("movieSearch");
+        const cards = document.querySelectorAll(".catalogue-card");
+        const filterButtons = document.querySelectorAll(".filter-button");
+        const noMovies = document.getElementById("noMoviesFound");
+
+        let selectedGenre = "all";
+
+        function filterMovies() {
+            const query = searchBox.value.trim().toLowerCase();
+            let visible = 0;
+
+            cards.forEach(card => {
+                const title = card.dataset.title;
+                const genres = card.dataset.genres.split(" ");
+
+                const matchesSearch = title.includes(query);
+
+                const matchesGenre =
+                    selectedGenre === "all" ||
+                    genres.includes(selectedGenre);
+
+                const show = matchesSearch && matchesGenre;
+
+                card.hidden = !show;
+
+                if (show) {
+                    visible++;
+                }
+            });
+
+            noMovies.hidden = visible !== 0;
+        }
+
+        searchBox.addEventListener("input", filterMovies);
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                selectedGenre = button.dataset.filter;
+
+                filterButtons.forEach(item => {
+                    item.classList.toggle("active", item === button);
+                });
+
+                filterMovies();
+            });
+        });
+    </script>
+
+    <script src="session.js"></script>
+</body>
+</html>
