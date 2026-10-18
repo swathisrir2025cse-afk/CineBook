@@ -1226,13 +1226,23 @@
     font-weight: bold;
 }
 
-.seat.unavailable {
-    background: #663e45;
-    border-color: #663e45;
-    color: #d6bfc2;
-    cursor: not-allowed;
-    opacity: 0.7;
+
+/* Unavailable / Already Booked Seats */
+
+
+.home-page .seat.unavailable,
+.seat.unavailable,
+button.seat.unavailable {
+    background: #6B6258 !important;
+    background-color: #6B6258 !important;
+    border: 2px solid #A39484 !important;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
 }
+
 
 .aisle {
     width: 15px;
@@ -2117,4 +2127,67 @@ body:has(.ticket-page) .navbar nav a:hover {
 body:has(.my-bookings-card) .navbar nav .nav-user,
 body:has(.ticket-page) .navbar nav .nav-user {
     color: #d4af37 !important;
+}
+
+
+/* Booked seats */
+.seat.unavailable,
+button.seat.unavailable,
+.home-page .seat.unavailable {
+    background: #75685B !important;
+    background-color: #75685B !important;
+    border: 2px solid #A99A89 !important;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Prevent hover from changing booked-seat appearance */
+.seat.unavailable:hover {
+    background: #75685B !important;
+    border-color: #A99A89 !important;
+    transform: none !important;
+}
+
+/* ===== CINEBOOK BOOKING SEAT COLORS ===== */
+
+/* Available seats */
+.booking-page .seat-layout .seat:not(.unavailable):not(.selected) {
+    background: #29364a !important;
+    color: #ffffff !important;
+    border: 1px solid #61708a !important;
+}
+
+/* Selected seats */
+.booking-page .seat-layout .seat.selected {
+    background: #d4af37 !important;
+    color: #090d18 !important;
+    border: 1px solid #d4af37 !important;
+}
+
+/* Booked / unavailable seats */
+.booking-page .seat-layout .seat.unavailable {
+    background: #75685b !important;
+    background-color: #75685b !important;
+    color: #ffffff !important;
+    border: 2px solid #a39484 !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Keep booked seats brown when hovered */
+.booking-page .seat-layout .seat.unavailable:hover {
+    background: #75685b !important;
+    border-color: #a39484 !important;
+    transform: none !important;
+}
+
+/* Unavailable-seat legend */
+.booking-page .booked-legend {
+    background: #75685b !important;
+    border-color: #a39484 !important;
 }

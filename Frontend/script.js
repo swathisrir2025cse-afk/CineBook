@@ -1,5 +1,5 @@
 
- // ===== CINEBOOK BOOKING PAGE =====
+/* ===== CINEBOOK BOOKING PAGE ===== */
 
 document.addEventListener("DOMContentLoaded", async function () {
     const movieSelect = document.getElementById("movieSelect");
@@ -16,13 +16,15 @@ document.addEventListener("DOMContentLoaded", async function () {
     const confirmButton = document.getElementById("confirmBooking");
     const bookingMessage = document.getElementById("bookingMessage");
 
-    // Shows will come from the Spring Boot backend.
-    let availableShows = [];
-    let selectedShow = null;
-
     const API_URL = "http://localhost:8080/api/shows";
 
-    // Format a date using the user's local calendar.
+    let availableShows = [];
+    let selectedShow = null;
+    let seatAvailabilityRequest = 0;
+    let availabilityLoaded = false;
+
+    // ===== DATE AND TIME HELPERS =====
+
     function getLocalDate() {
         const today = new Date();
 
@@ -33,13 +35,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         ].join("-");
     }
 
-    // Accept either HH:mm or HH:mm:ss.
     function formatTime(time) {
         if (!time) return "";
         return String(time).substring(0, 5);
     }
 
-    // Convert the API date into YYYY-MM-DD.
     function formatDate(date) {
         if (!date) return "";
 
@@ -50,12 +50,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         return "";
     }
 
-    function getSelectedSeats() {
-        return Array.from(document.querySelectorAll(".seat.selected"))
-            .map(function (seat) {
-                return seat.dataset.seat;
-            });
-    }
+    // ===== MESSAGES =====
 
     function showMessage(message, type) {
         bookingMessage.textContent = message;
@@ -66,8 +61,18 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
+    // ===== SELECTED SEATS AND SUMMARY =====
+
+    function getSelectedSeats() {
+        return Array.from(document.querySelectorAll(".seat.selected"))
+            .map(function (seat) {
+                return seat.dataset.seat;
+            });
+    }
+
     function updateSummary() {
         const selectedSeats = getSelectedSeats();
+
         const price = selectedShow
             ? Number(selectedShow.ticketPrice)
             : 0;
@@ -78,11 +83,154 @@ document.addEventListener("DOMContentLoaded", async function () {
                 : "None";
 
         ticketPriceText.textContent = "₹" + price;
+
         totalPriceText.textContent =
             "₹" + (selectedSeats.length * price);
     }
 
-    // Find the selected show using the movie and date.
+    // ===== RESET SEAT AVAILABILITY =====
+
+    function resetSeats() {
+        availabilityLoaded = false;
+
+        seats.forEach(function (seat) {
+            seat.classList.remove("selected", "unavailable");
+            seat.disabled = true;
+        });
+
+        updateSummary();
+    }
+
+    // ===== LOAD BOOKED SEATS FOR THE SELECTED SHOW =====
+
+    async function loadBookedSeats(showId) {
+        const requestId = ++seatAvailabilityRequest;
+
+        availabilityLoaded = false;
+
+        // Disable seats while checking availability.
+        seats.forEach(function (seat) {
+            seat.disabled = true;
+            seat.classList.remove("selected", "unavailable");
+        });
+
+        updateSummary();
+
+        try {
+            const response = await fetch(
+                `http://localhost:8080/api/shows/${showId}/booked-seats`
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "Could not load booked seats. HTTP " + response.status
+                );
+            }
+
+            const bookedSeatNumbers = await response.json();
+
+            if (!Array.isArray(bookedSeatNumbers)) {
+                throw new Error("Invalid booked-seats response.");
+            }
+
+            // Ignore responses from a previously selected show.
+            if (
+                requestId !== seatAvailabilityRequest ||
+                !selectedShow ||
+                String(selectedShow.showId) !== String(showId)
+            ) {
+                return;
+            }
+
+            const bookedSeatSet = new Set(
+                bookedSeatNumbers.map(function (seatNumber) {
+                    return String(seatNumber).trim().toUpperCase();
+                })
+            );
+
+            seats.forEach(function (seat) {
+                // data-seat="B7" gives B7, not just the text "7".
+                const seatNumber = String(seat.dataset.seat || "")
+                    .trim()
+                    .toUpperCase();
+
+                const isBooked = bookedSeatSet.has(seatNumber);
+
+                seat.classList.remove("selected", "unavailable");
+
+                if (isBooked) {
+                    seat.classList.add("unavailable");
+                    seat.disabled = true;
+                } else {
+                    seat.disabled = false;
+                }
+            });
+
+            availabilityLoaded = true;
+            updateSummary();
+
+            showMessage("Seat availability loaded.", "success");
+
+        } catch (error) {
+            if (requestId !== seatAvailabilityRequest) {
+                return;
+            }
+
+            console.error("Error loading booked seats:", error);
+
+            availabilityLoaded = false;
+
+            // Fail safely if seat availability cannot be checked.
+            seats.forEach(function (seat) {
+                seat.disabled = true;
+            });
+
+            showMessage(
+                "Unable to check seat availability. Please try again.",
+                "error"
+            );
+        }
+    }
+
+    // ===== SELECT THE SHOW =====
+
+    function updateSelectedShow() {
+        const movieTitle = movieSelect.value;
+        const date = showDate.value;
+        const time = showTime.value;
+
+        const matchingShows = availableShows.filter(function (show) {
+            return show.movieTitle === movieTitle &&
+                formatDate(show.showDate) === date;
+        });
+
+        if (showTime.tagName === "SELECT") {
+            selectedShow = matchingShows.find(function (show) {
+                return String(show.showId) === String(time);
+            }) || null;
+        } else {
+            selectedShow = matchingShows.find(function (show) {
+                return formatTime(show.showTime) === time;
+            }) || null;
+        }
+
+        // Invalidate requests belonging to a previously selected show.
+        seatAvailabilityRequest++;
+
+        resetSeats();
+
+        if (selectedShow) {
+            loadBookedSeats(selectedShow.showId);
+        } else {
+            showMessage(
+                "Please select a valid movie, date and show time.",
+                "error"
+            );
+        }
+    }
+
+    // ===== LOAD AVAILABLE TIMES =====
+
     function updateAvailableTimes() {
         const movieTitle = movieSelect.value;
         const date = showDate.value;
@@ -93,11 +241,15 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         selectedShow = null;
+        seatAvailabilityRequest++;
+
+        resetSeats();
 
         if (showTime.tagName === "SELECT") {
             showTime.replaceChildren();
 
             const placeholder = document.createElement("option");
+
             placeholder.value = "";
             placeholder.textContent = matchingShows.length
                 ? "Select show time"
@@ -120,7 +272,6 @@ document.addEventListener("DOMContentLoaded", async function () {
                 showTime.value = String(matchingShows[0].showId);
             }
         } else {
-            // Support an existing time input as well.
             if (matchingShows.length > 0) {
                 showTime.value = formatTime(matchingShows[0].showTime);
             } else {
@@ -131,33 +282,13 @@ document.addEventListener("DOMContentLoaded", async function () {
         updateSelectedShow();
     }
 
-    function updateSelectedShow() {
-        const movieTitle = movieSelect.value;
-        const date = showDate.value;
-        const time = showTime.value;
+    // ===== LOAD SHOWS FROM SPRING BOOT =====
 
-        let matchingShows = availableShows.filter(function (show) {
-            return show.movieTitle === movieTitle &&
-                formatDate(show.showDate) === date;
-        });
-
-        if (showTime.tagName === "SELECT") {
-            selectedShow = matchingShows.find(function (show) {
-                return String(show.showId) === time;
-            }) || null;
-        } else {
-            selectedShow = matchingShows.find(function (show) {
-                return formatTime(show.showTime) === time;
-            }) || null;
-        }
-
-        updateSummary();
-    }
-
-    // Load actual shows from MySQL through Spring Boot.
     async function loadShows() {
         try {
             showMessage("Loading available shows...", "");
+
+            resetSeats();
 
             const response = await fetch(API_URL);
 
@@ -181,8 +312,18 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (availableShows.length === 0) {
                 movieSelect.replaceChildren();
                 showDate.value = "";
+                selectedShow = null;
+
+                if (showTime.tagName === "SELECT") {
+                    showTime.replaceChildren();
+                    const option = document.createElement("option");
+                    option.value = "";
+                    option.textContent = "No shows available";
+                    showTime.appendChild(option);
+                }
+
+                resetSeats();
                 showMessage("No shows are currently available.", "error");
-                updateAvailableTimes();
                 return;
             }
 
@@ -201,8 +342,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             movieNames.forEach(function (name) {
                 const option = document.createElement("option");
+
                 option.value = name;
                 option.textContent = name;
+
                 movieSelect.appendChild(option);
             });
 
@@ -210,7 +353,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                 movieSelect.value = previousMovie;
             }
 
-            // Only allow dates that have shows for the selected movie.
+            // Do not offer past dates.
             showDate.min = getLocalDate();
 
             const futureShows = availableShows.filter(function (show) {
@@ -241,11 +384,14 @@ document.addEventListener("DOMContentLoaded", async function () {
                 "Shows loaded successfully. Select your movie, date and time.",
                 "success"
             );
+
         } catch (error) {
             console.error("CineBook API error:", error);
 
             selectedShow = null;
-            updateSummary();
+            seatAvailabilityRequest++;
+
+            resetSeats();
 
             showMessage(
                 "Unable to load shows. Make sure Spring Boot is running at " +
@@ -255,23 +401,27 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // Seat selection. Do not invent unavailable seats.
+    // ===== SEAT CLICK HANDLERS =====
+
     seats.forEach(function (seat) {
         seat.addEventListener("click", function () {
             if (
                 seat.disabled ||
                 seat.classList.contains("unavailable") ||
-                !selectedShow
+                !selectedShow ||
+                !availabilityLoaded
             ) {
                 return;
             }
 
             seat.classList.toggle("selected");
-            updateSummary();
 
+            updateSummary();
             showMessage("", "");
         });
     });
+
+    // ===== MOVIE, DATE AND TIME EVENTS =====
 
     movieSelect.addEventListener("change", function () {
         const movieShows = availableShows.filter(function (show) {
@@ -289,125 +439,117 @@ document.addEventListener("DOMContentLoaded", async function () {
     showDate.addEventListener("change", updateAvailableTimes);
     showTime.addEventListener("change", updateSelectedShow);
 
-    // Validate the selection and show a confirmation.
-    
-confirmButton.addEventListener("click", async function () {
-    const selectedSeats = getSelectedSeats();
+    // ===== CONFIRM BOOKING =====
 
-    if (!selectedShow) {
-        showMessage(
-            "Please select a valid movie, date and show time.",
-            "error"
-        );
-        return;
-    }
+    confirmButton.addEventListener("click", async function () {
+        const selectedSeats = getSelectedSeats();
 
-    if (formatDate(selectedShow.showDate) < getLocalDate()) {
-        showMessage("Please select today or a future date.", "error");
-        return;
-    }
-
-    if (selectedSeats.length === 0) {
-        showMessage("Please select at least one seat.", "error");
-        return;
-    }
-
-    // Check the demo login information.
-    let user;
-
-    try {
-        user = JSON.parse(localStorage.getItem("cinebookUser"));
-    } catch (error) {
-        user = null;
-    }
-
-    if (!user || !user.userId) {
-        showMessage("Please log in before booking tickets.", "error");
-        window.location.href = "login.html";
-        return;
-    }
-
-    const movie = selectedShow.movieTitle;
-    const date = formatDate(selectedShow.showDate);
-    const time = formatTime(selectedShow.showTime);
-    const price = Number(selectedShow.ticketPrice);
-    const total = selectedSeats.length * price;
-
-    // Display a temporary message while saving.
-    bookingMessage.replaceChildren();
-    bookingMessage.textContent = "Saving your booking...";
-    bookingMessage.className = "booking-message";
-
-    confirmButton.disabled = true;
-
-    try {
-        const response = await fetch("http://localhost:8080/api/bookings", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                userId: Number(user.userId),
-                showId: Number(selectedShow.showId),
-                seatNumbers: selectedSeats
-            })
-        });
-
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                result.message || "Unable to complete your booking."
+        if (!selectedShow) {
+            showMessage(
+                "Please select a valid movie, date and show time.",
+                "error"
             );
+            return;
         }
 
-        bookingMessage.replaceChildren();
+        if (!availabilityLoaded) {
+            showMessage(
+                "Seat availability is not ready. Please wait or try again.",
+                "error"
+            );
+            return;
+        }
 
-        const heading = document.createElement("strong");
-        heading.textContent = "Booking Confirmed!";
-        bookingMessage.appendChild(heading);
+        if (formatDate(selectedShow.showDate) < getLocalDate()) {
+            showMessage(
+                "Please select today or a future date.",
+                "error"
+            );
+            return;
+        }
 
-        const details = [
-            "Booking ID: " + result.bookingId,
-            "Movie: " + movie,
-            "Date: " + date,
-            "Show Time: " + time,
-            "Seats: " + selectedSeats.join(", "),
-            "Tickets: " + selectedSeats.length,
-            "Ticket Price: ₹" + price,
-            "Total Amount: ₹" + Number(result.totalAmount),
-            "",
-            "Thank you for choosing CineBook!"
-        ];
-        window.location.href = "my-bookings.html";
-        return;
+        if (selectedSeats.length === 0) {
+            showMessage("Please select at least one seat.", "error");
+            return;
+        }
 
-        details.forEach(function (detail) {
-            const line = document.createElement("div");
-            line.textContent = detail || "\u00A0";
-            bookingMessage.appendChild(line);
-        });
+        // Check the logged-in user.
+        let user;
 
-        bookingMessage.className = "booking-message success";
+        try {
+            user = JSON.parse(localStorage.getItem("cinebookUser"));
+        } catch (error) {
+            user = null;
+        }
 
-        bookingMessage.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest"
-        });
+        if (!user || !user.userId) {
+            showMessage("Please log in before booking tickets.", "error");
+            window.location.href = "login.html";
+            return;
+        }
 
-    } catch (error) {
-        bookingMessage.textContent =
-            error.message === "Failed to fetch"
-                ? "Cannot connect to the booking server. Check whether the backend is running."
-                : error.message;
+        const movie = selectedShow.movieTitle;
+        const date = formatDate(selectedShow.showDate);
+        const time = formatTime(selectedShow.showTime);
+        const price = Number(selectedShow.ticketPrice);
 
-        bookingMessage.className = "booking-message error";
+        showMessage("Saving your booking...", "");
 
-    } finally {
-        confirmButton.disabled = false;
-    }
-});
+        confirmButton.disabled = true;
 
+        try {
+            const response = await fetch(
+                "http://localhost:8080/api/bookings",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        userId: Number(user.userId),
+                        showId: Number(selectedShow.showId),
+                        seatNumbers: selectedSeats
+                    })
+                }
+            );
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    result.message || "Unable to complete your booking."
+                );
+            }
+
+            showMessage("Booking confirmed! Redirecting to My Bookings...", "success");
+
+            // Refresh availability so seats booked by this request
+            // cannot be selected again.
+            await loadBookedSeats(selectedShow.showId);
+
+            window.location.href = "my-bookings.html";
+
+        } catch (error) {
+            console.error("Booking error:", error);
+
+            showMessage(
+                error.message === "Failed to fetch"
+                    ? "Cannot connect to the booking server. Check whether the backend is running."
+                    : error.message,
+                "error"
+            );
+
+            // Refresh seat availability after a booking error too.
+            if (selectedShow) {
+                await loadBookedSeats(selectedShow.showId);
+            }
+
+        } finally {
+            confirmButton.disabled = false;
+        }
+    });
+
+    // ===== START THE BOOKING PAGE =====
 
     await loadShows();
 });
