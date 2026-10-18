@@ -53,7 +53,22 @@ public class CineBookController {
     public List<MovieShow> getAllShows() {
         return movieShowRepository.findAll();
     }
+    @GetMapping("/api/shows/{showId}/booked-seats")
+public ResponseEntity<List<String>> getBookedSeats(
+        @PathVariable Integer showId) {
 
+    List<String> bookedSeatNumbers =
+            bookingSeatRepository.findByShowId(showId)
+                    .stream()
+                    .map(BookingSeat::getSeatId)
+                    .map(seatId -> seatRepository.findById(seatId)
+                            .orElse(null))
+                    .filter(seat -> seat != null)
+                    .map(Seat::getSeatNumber)
+                    .toList();
+
+    return ResponseEntity.ok(bookedSeatNumbers);
+}
     @PostMapping("/api/bookings")
     @Transactional
     public ResponseEntity<Map<String, Object>> createBooking(
