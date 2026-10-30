@@ -2191,3 +2191,457 @@ button.seat.unavailable,
     background: #75685b !important;
     border-color: #a39484 !important;
 }
+
+.ticket-qr-section h3 {
+    color: #ffffff;
+}
+
+.ticket-qr-section p {
+    color: #ffffff;
+}
+
+/* ===== CINEBOOK DIGITAL TICKET DESIGN ===== */
+
+.ticket-page {
+    min-height: 100vh;
+    padding: 50px 20px;
+    background:
+        radial-gradient(circle at top, #8b3518 0%, transparent 45%),
+        linear-gradient(135deg, #100d0e, #25120f, #100d0e);
+    color: #ffffff;
+    text-align: center;
+}
+
+.ticket-page h1 {
+    color: #ffffff;
+    font-size: 34px;
+    margin-bottom: 10px;
+}
+
+.ticket-subtitle {
+    color: #e4c7b8;
+    margin-bottom: 35px;
+}
+
+#ticket-container {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.digital-ticket {
+    position: relative;
+    overflow: hidden;
+    padding: 25px;
+    border-radius: 20px;
+    text-align: left;
+    color: #ffffff;
+    background: linear-gradient(
+        145deg,
+        rgba(65, 48, 48, 0.98),
+        rgba(24, 20, 23, 0.98)
+    );
+    border: 1px solid rgba(255, 173, 91, 0.35);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+}
+
+.ticket-brand {
+    color: #ffad5b;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.ticket-movie-poster {
+    display: block;
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.digital-ticket h2 {
+    color: #ffffff;
+    font-size: 27px;
+    margin: 10px 0 20px;
+}
+
+.digital-ticket hr {
+    border: none;
+    border-top: 1px dashed rgba(255, 255, 255, 0.4);
+    margin: 22px 0;
+}
+
+.ticket-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 15px;
+}
+
+.ticket-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.ticket-detail span {
+    color: #c5b7b2;
+    font-size: 13px;
+}
+
+.ticket-detail strong {
+    color: #ffffff;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.ticket-qr-section {
+    text-align: center;
+    margin: 30px 0 20px;
+    padding: 22px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.ticket-qr-section h3 {
+    color: #ffffff;
+    font-size: 19px;
+    margin-bottom: 10px;
+}
+
+.ticket-qr-section p {
+    color: #ffffff;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.ticket-qr-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    min-height: 200px;
+    margin: 0 auto;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.ticket-qr-code img,
+.ticket-qr-code canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.ticket-footer {
+    color: #d7c5bc;
+    font-size: 12px;
+    text-align: center;
+    line-height: 1.6;
+    margin-top: 20px;
+}
+
+.ticket-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 25px auto;
+}
+
+.ticket-actions button,
+.ticket-actions a {
+    padding: 12px 22px;
+    border: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ffb15c, #e66b27);
+    color: #1b1110;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.ticket-actions button:hover,
+.ticket-actions a:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Mobile screen */
+@media (max-width: 500px) {
+    .ticket-page {
+        padding: 30px 12px;
+    }
+
+    .ticket-page h1 {
+        font-size: 27px;
+    }
+
+    .digital-ticket {
+        padding: 18px;
+    }
+
+    .ticket-movie-poster {
+        height: 155px;
+    }
+
+    .digital-ticket h2 {
+        font-size: 23px;
+    }
+
+    .ticket-detail strong {
+        font-size: 14px;
+    }
+}
+
+/* Print only the ticket */
+@media print {
+    body {
+        background: #ffffff !important;
+    }
+
+    .navbar,
+    .ticket-page h1,
+    .ticket-subtitle,
+    .ticket-actions {
+        display: none !important;
+    }
+
+    .ticket-page {
+        background: #ffffff !important;
+        padding: 10px;
+    }
+
+    .digital-ticket {
+        box-shadow: none;
+        border: 1px solid #999;
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+}
+
+/* ===== PREMIUM CINEMA TICKET UPGRADE ===== */
+
+.ticket-page {
+    font-family: Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(ellipse at 50% 20%, #642817 0%, transparent 55%),
+        linear-gradient(145deg, #100d10, #24100e, #100d10);
+    padding-top: 45px;
+}
+
+.ticket-page h1 {
+    font-family: Arial, sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.ticket-subtitle {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.digital-ticket {
+    background: linear-gradient(145deg, #382827, #191719);
+    border: 1px solid rgba(255, 174, 91, 0.5);
+    border-radius: 22px;
+    padding: 25px;
+    position: relative;
+}
+
+.ticket-brand {
+    display: inline-block;
+    padding: 10px 16px;
+    border: 1px solid #a96c32;
+    border-radius: 8px;
+    background: rgba(255, 174, 91, 0.08);
+}
+
+.digital-ticket h2 {
+    font-family: Arial, sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 18px 0;
+}
+
+.ticket-movie-poster {
+    height: 210px;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+.ticket-qr-section {
+    margin: 25px 0;
+    padding: 20px 10px;
+    background: transparent;
+}
+
+.ticket-qr-section h3 {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+}
+
+.ticket-qr-section p {
+    color: #d8c9c3;
+}
+
+.ticket-qr-code {
+    width: 190px;
+    min-height: 190px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.digital-ticket hr {
+    border: none;
+    border-top: 2px dashed rgba(255, 255, 255, 0.35);
+    margin: 25px 0;
+}
+
+.ticket-detail {
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    border-radius: 12px;
+    padding: 15px;
+    min-height: 75px;
+}
+
+.ticket-detail span {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 12px;
+}
+
+.ticket-detail strong {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.ticket-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 18px;
+    color: #c9b9b0;
+}
+
+/* Better phone layout */
+@media (max-width: 500px) {
+    #ticket-container {
+        width: 100%;
+    }
+
+    .digital-ticket {
+        padding: 17px;
+    }
+
+    .ticket-movie-poster {
+        height: 170px;
+    }
+
+    .ticket-detail {
+        padding: 12px;
+    }
+}
+
+/* ===== CINEBOOK CINEMATIC TICKET EFFECTS ===== */
+
+/* Keep ticket contents above the background */
+.digital-ticket {
+    isolation: isolate;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Blurred movie poster background */
+.ticket-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-position: center;
+    background-size: cover;
+    filter: blur(16px);
+    opacity: 0.22;
+    transform: scale(1.12);
+    pointer-events: none;
+}
+
+/* Dark overlay for readable text */
+.digital-ticket::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+        145deg,
+        rgba(37, 23, 24, 0.88),
+        rgba(18, 15, 18, 0.94)
+    );
+    pointer-events: none;
+}
+
+/* Gold booking status */
+.ticket-status-badge {
+    display: inline-block;
+    padding: 7px 16px;
+    margin: 0 0 18px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffd27d, #e99a35);
+    color: #26170c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Ticket perforation divider */
+.ticket-divider {
+    position: relative;
+    height: 2px;
+    margin: 28px -25px;
+    border-top: 2px dashed rgba(255, 255, 255, 0.42);
+}
+
+/* Round cutouts on both sides */
+.ticket-divider::before,
+.ticket-divider::after {
+    content: "";
+    position: absolute;
+    top: -12px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #211313;
+}
+
+.ticket-divider::before {
+    left: -13px;
+}
+
+.ticket-divider::after {
+    right: -13px;
+}
+
+/* Premium gold border */
+.digital-ticket {
+    border: 1px solid rgba(255, 183, 91, 0.65);
+    box-shadow:
+        0 15px 45px rgba(0, 0, 0, 0.55),
+        0 0 25px rgba(235, 119, 43, 0.12);
+}
+
+/* Keep ticket content readable */
+.digital-ticket > *:not(.ticket-backdrop) {
+    position: relative;
+}
+
+@media (max-width: 500px) {
+    .ticket-divider {
+        margin-left: -17px;
+        margin-right: -17px;
+    }
+}
