@@ -18,7 +18,7 @@
 Thumbs.db
 
 # Never upload local database configuration
-**/src/main/resources/application.properties
+
 
 # Ignore generated Java build files
 **/target/
