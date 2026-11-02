@@ -16,7 +16,9 @@ document.addEventListener("DOMContentLoaded", async function () {
     const confirmButton = document.getElementById("confirmBooking");
     const bookingMessage = document.getElementById("bookingMessage");
 
-    const API_URL = "http://localhost:8080/api/shows";
+    // Render backend URL
+    const API_BASE = "https://cinebook-backend-8n9o.onrender.com";
+    const API_URL = `${API_BASE}/api/shows`;
 
     let availableShows = [];
     let selectedShow = null;
@@ -118,7 +120,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         try {
             const response = await fetch(
-                `http://localhost:8080/api/shows/${showId}/booked-seats`
+                `${API_BASE}/api/shows/${showId}/booked-seats`
             );
 
             if (!response.ok) {
@@ -149,7 +151,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             );
 
             seats.forEach(function (seat) {
-                // data-seat="B7" gives B7, not just the text "7".
                 const seatNumber = String(seat.dataset.seat || "")
                     .trim()
                     .toUpperCase();
@@ -316,9 +317,11 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                 if (showTime.tagName === "SELECT") {
                     showTime.replaceChildren();
+
                     const option = document.createElement("option");
                     option.value = "";
                     option.textContent = "No shows available";
+
                     showTime.appendChild(option);
                 }
 
@@ -394,8 +397,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             resetSeats();
 
             showMessage(
-                "Unable to load shows. Make sure Spring Boot is running at " +
-                API_URL + " and try refreshing this page.",
+                "Unable to load shows from the CineBook server. Please try refreshing this page.",
                 "error"
             );
         }
@@ -488,18 +490,13 @@ document.addEventListener("DOMContentLoaded", async function () {
             return;
         }
 
-        const movie = selectedShow.movieTitle;
-        const date = formatDate(selectedShow.showDate);
-        const time = formatTime(selectedShow.showTime);
-        const price = Number(selectedShow.ticketPrice);
-
         showMessage("Saving your booking...", "");
 
         confirmButton.disabled = true;
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/bookings",
+                `${API_BASE}/api/bookings`,
                 {
                     method: "POST",
                     headers: {
@@ -521,10 +518,12 @@ document.addEventListener("DOMContentLoaded", async function () {
                 );
             }
 
-            showMessage("Booking confirmed! Redirecting to My Bookings...", "success");
+            showMessage(
+                "Booking confirmed! Redirecting to My Bookings...",
+                "success"
+            );
 
-            // Refresh availability so seats booked by this request
-            // cannot be selected again.
+            // Refresh availability after booking.
             await loadBookedSeats(selectedShow.showId);
 
             window.location.href = "my-bookings.html";
@@ -534,7 +533,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             showMessage(
                 error.message === "Failed to fetch"
-                    ? "Cannot connect to the booking server. Check whether the backend is running."
+                    ? "Cannot connect to the booking server. Please try again."
                     : error.message,
                 "error"
             );
