@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if (!savedUser) {
         alert("Please log in to view your bookings.");
-        window.location.href = "login.html";
+        window.location.href = "Login.html";
         return;
     }
 
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         user = JSON.parse(savedUser);
     } catch (error) {
         localStorage.removeItem("cinebookUser");
-        window.location.href = "login.html";
+        window.location.href = "Login.html";
         return;
     }
 

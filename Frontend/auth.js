@@ -28,6 +28,7 @@ if (registerForm) {
             });
 
             const result = await response.json();
+            console.log("Login response:", result);
 
             if (!response.ok) {
                 throw new Error(result.message || "Registration failed.");
@@ -38,7 +39,7 @@ if (registerForm) {
             registerForm.reset();
 
             setTimeout(() => {
-                window.location.href = "login.html";
+                window.location.href = "Login.html";
             }, 1200);
 
         } catch (error) {

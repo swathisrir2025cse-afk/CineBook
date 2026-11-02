@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Remove Login and Register links.
     nav.querySelectorAll("a").forEach(function (link) {
         if (
-            link.getAttribute("href") === "login.html" ||
+            link.getAttribute("href") === "Login.html" ||
             link.getAttribute("href") === "register.html"
         ) {
             link.remove();

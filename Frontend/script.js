@@ -486,7 +486,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         if (!user || !user.userId) {
             showMessage("Please log in before booking tickets.", "error");
-            window.location.href = "login.html";
+            window.location.href = "Login.html";
             return;
         }
 

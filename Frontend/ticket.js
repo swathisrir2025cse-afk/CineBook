@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", async function () {
         const savedUser = localStorage.getItem("cinebookUser");
 
         if (!savedUser) {
-            window.location.href = "login.html";
+            window.location.href = "Login.html";
             return;
         }
 
         user = JSON.parse(savedUser);
     } catch (error) {
         localStorage.removeItem("cinebookUser");
-        window.location.href = "login.html";
+        window.location.href = "Login.html";
         return;
     }
 
