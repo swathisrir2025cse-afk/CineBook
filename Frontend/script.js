@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const bookingMessage = document.getElementById("bookingMessage");
 
     // Render backend URL
-    const API_BASE = "https://cinebook-backend-8n9o.onrender.com";
+    const API_BASE = "http://localhost:8080";
     const API_URL = `${API_BASE}/api/shows`;
 
     let availableShows = [];

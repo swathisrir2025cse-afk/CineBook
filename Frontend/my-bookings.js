@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     try {
         const response = await fetch(
-            "https://cinebook-backend-8n9o.onrender.com/api/bookings/my?userId=" +
+            "http://localhost:8080/api/bookings/my?userId=" +
             encodeURIComponent(user.userId)
         );
 
